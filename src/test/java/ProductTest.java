@@ -29,10 +29,10 @@ class ProductTest {
         Product product2 = new Product(2, "Collageblock");
 
         // WHEN
-        product2.getId();
+        int result = product2.getId();
 
         // THEN
-        assertEquals(2, product2.getId());
+        assertEquals(2, result);
     }
 
     @Test
@@ -55,10 +55,10 @@ class ProductTest {
         Product product2 = new Product(2, "Collageblock");
 
         // WHEN
-        product2.getName();
+        String result = product2.getName();
 
         // THEN
-        assertEquals("Collageblock", product2.getName());
+        assertEquals("Collageblock", result);
     }
 
 }

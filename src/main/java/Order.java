@@ -1,2 +1,4 @@
-public class Order {
+public class Order extends Product {
+
+
 }

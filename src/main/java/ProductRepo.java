@@ -1,25 +1,42 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ProductRepo {
 
-    List<Product> products = new LinkedList<>();
+    Map<Integer, Product> products = new HashMap<>();
 
     public ProductRepo() {
     }
 
-    public ProductRepo(List<Product> products) {
+    public ProductRepo(Map<Integer, Product> products) {
         this.products = products;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public void addProduct(int id, Product product) {
+        products.put(id, product);
     }
 
-    public List<Product> getList() {
+    public boolean removeProduct(Integer id, Product product) {
+        return products.remove(id, product);
+    }
+
+    public Map<Integer, Product> getList() {
         return products;
     }
 
+    public Product getProductById(int id) throws NoSuchElementException {
+        if (products.containsKey(id)) {
+            return products.get(id);
+        }
+        throw new NoSuchElementException();
+    }
+/*
+    public Product getProductByName(String name) {
+        for (Integer id : products) {
+            if (products.containsValue(name)) ;
+            return products.get(id);
+        }
+    }
+ */
     @Override
     public String toString() {
         return "ProductRepo{" +

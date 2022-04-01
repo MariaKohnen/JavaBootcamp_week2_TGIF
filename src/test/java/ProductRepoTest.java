@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,63 +13,97 @@ class ProductRepoTest {
     Product product3 = new Product(3, "Diary");
     Product product4 = new Product(4, "Paperclips");
 
-    ProductRepo expected = new ProductRepo();
-
-
     @Test
     void addProduct_whenAddAProduct_ProductRepoShouldContainsProduct() {
         // GIVEN
-        LinkedList<Product> studentList2 = new LinkedList<>();
-        studentList2.add(product1);
-        studentList2.add(product2);
-        studentList2.add(product3);
-        ProductRepo expected = new ProductRepo(studentList2);
-
-        LinkedList<Product> studentList1 = new LinkedList<>();
-        studentList1.add(product1);
-        studentList1.add(product2);
-        ProductRepo result = new ProductRepo(studentList1);
+        Product product1 = new Product(1, "Pencil");
+        Product product2 = new Product(2, "Collageblock");
+        Map<Integer, Product> products = new HashMap<>();
+        ProductRepo productRepo = new ProductRepo(products);
 
         // WHEN
-        result.addProduct(product3);
+        productRepo.addProduct(1, product1);
+        Map<Integer, Product> actual = productRepo.getList();
 
         // THEN
-        assertEquals(expected, result);
+        Map<Integer, Product> expected = new HashMap<>(Map.of(1, new Product(1, "Pencil")));
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    void getList_shouldReturnListOfProducts() {
+
+        // GIVEN
+        Product product1 = new Product(1, "Pencil");
+        Product product2 = new Product(2, "Collageblock");
+        Map<Integer, Product> products = new HashMap<>();
+        products.put(1, product1);
+
+
+        // WHEN
+        ProductRepo productRepo = new ProductRepo(products);
+        Map actual = productRepo.getList();
+
+        // THEN
+        Map<Integer, Product> expected = new HashMap<>(Map.of(1, new Product(1, "Pencil")));
+        assertEquals(expected, actual);
+
+
     }
 
     @Test
-    void getList_shouldReturnListOfProducts () {
-
+    void getProductById_whenIdGiven_shouldFindProduct() {
         // GIVEN
-        LinkedList<Product> studentList1 = new LinkedList<>();
-        studentList1.add(product1);
-        studentList1.add(product2);
-        ProductRepo expected = new ProductRepo(studentList1);
+        ProductRepo productRepo = new ProductRepo();
+        productRepo.addProduct(1, product1);
+        productRepo.addProduct(2, product2);
 
         // WHEN
-        ProductRepo result = new ProductRepo();
-        result.addProduct(product1);
-        result.addProduct(product2);
+        Product result = productRepo.getProductById(1);
 
         // THEN
-        assertEquals(expected, result);
-
+        assertEquals(product1, result);
     }
 
     @Test
-    void toString_shouldReturnStringOfProductRepo() {
+    void getProductById_whenIdIsNotGiven_shouldThrowException() {
+        // GIVEN
+        ProductRepo expected = new ProductRepo();
+        expected.addProduct(1, product1);
+        expected.addProduct(2, product2);
+
+
+        // WHEN // THEN
+        assertThrows(NoSuchElementException.class, () -> expected.getProductById(3));
+    }
+
+    @Test
+    void removeProduct_whenRemoveWorks_shouldReturnTrue() {
         // GIVEN
         ProductRepo result = new ProductRepo();
-        result.addProduct(product1);
-        result.addProduct(product2);
+        result.addProduct(1, product1);
+        result.addProduct(2, product2);
+
+        // WHEN // THEN
+        Boolean expected = result.removeProduct(1, product1);
+    }
+/*
+    @Test
+    void getProductByName_whenNameIsGiven_shouldReturnProduct() {
+        //GIVEN
+        ProductRepo productRepo = new ProductRepo();
+        productRepo.addProduct(1, product1);
+        productRepo.addProduct(2, product2);
 
         // WHEN
-        result.toString();
-
+        Product result = productRepo.getProductByName("Collageblock");
         // THEN
-        String expected ="ProductRepo{products=[Product{id=1, name='Pencil'}, Product{id=2, name='Collageblock'}]}";
-        assertEquals(expected, result.toString());
+        assertEquals(product2, result);
     }
+
+ */
 
 
 }
