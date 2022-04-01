@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class Order extends Product {
 
     protected int id;
